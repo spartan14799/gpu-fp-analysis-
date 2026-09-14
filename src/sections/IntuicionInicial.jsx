@@ -3,6 +3,7 @@ import Section from "../components/Section.jsx";
 import PantallaPersonaje from "../components/PantallaPersonaje.jsx";
 import Proyeccion3D from "../components/Proyeccion3D.jsx";
 import PrecisionVsParalelismo from "../components/PrecisionVsParalelismo.jsx";
+import AcumulacionErrorRayTracing from "../components/AcumulacionErrorRayTracing.jsx";
 
 const INTEGRANTES = [
   { id: "juan", name: "Juan Huertas" },
@@ -95,15 +96,24 @@ export default function IntuicionInicial() {
 
         {activeTab === "nicolas" && (
           <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-            <p className="max-w-[65ch] text-ink-dim">
-              Aquí irá la intuición inicial de Nicolas Betancur. Abordaremos preguntas sobre las limitaciones 
-              computacionales, y tal vez una aproximación sobre cómo técnicas más pesadas como el trazado de 
-              rayos podrían interactuar a nivel de máquina.
+            <p className="max-w-[65ch] text-ink-dim leading-relaxed">
+              Inicialmente la idea de analizar esta pregunta llamó mi atención por lo mencionado en clase sobre la acumulación de errores, y junto al tema discutido con mis compañeros sobre el procesamiento gráfico 3D, surgió una pregunta sobre técnicas intensivas para simular fenómenos continuos, como el Ray Tracing. Ya que estamos intentando modelar este fenómeno en un computador que es discreto, hay lugar a errores de aproximación en la colisión de los rayos.
             </p>
-            <div className="mt-6 h-48 border border-dashed border-line rounded-sm flex flex-col items-center justify-center text-ink-faint">
-              <span className="font-mono text-sm">Contenido en desarrollo</span>
-              <span className="text-xs mt-2 opacity-50">Esperando intuición de Nicolas...</span>
+
+            <div className="mt-6">
+              <p className="mb-3 font-mono text-xs text-ink-dim">
+                simulación interactiva — acumulación de error en rebotes sucesivos vs entorno continuo
+              </p>
+              <AcumulacionErrorRayTracing />
             </div>
+
+            <p className="mt-10 max-w-[65ch] text-ink-dim leading-relaxed">
+              Ahora bien, cada vez que un rayo colisiona, rebota o se refracta, es muy probable que en la aproximación de punto flotante se estén acumulando errores por la pérdida de precisión en la mantisa. En algún escenario donde hay millones de interacciones como esta se pueden generar fallos como que un rayo atraviese una pared delgada, malos cálculos en las sombras o superficies superpuestas.
+            </p>
+
+            <p className="mt-6 max-w-[65ch] text-ink-dim leading-relaxed">
+              Pienso que es casi seguro que de alguna forma deben de &quot;amortiguar&quot; esta acumulación de errores, talvez dando un pequeño margen de error a las superficies que interactuán con los rayos de luz o aproximando iterativamente entre aproximación truncada y por exceso, haciendo que el error no pase de cierto valor.
+            </p>
           </div>
         )}
       </div>
