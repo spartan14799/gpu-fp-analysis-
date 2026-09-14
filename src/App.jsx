@@ -1,6 +1,7 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
 import Landing from "./pages/Landing.jsx";
+import IntuicionInicial from "./sections/IntuicionInicial.jsx";
 import Modulo1 from "./sections/Modulo1.jsx";
 import Modulo2 from "./sections/Modulo2.jsx";
 import Modulo3 from "./sections/Modulo3.jsx";
@@ -14,6 +15,7 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Landing />} />
+          <Route path="intuicion" element={<IntuicionInicial />} />
           <Route path="modulo-1" element={<Modulo1 />} />
           <Route path="modulo-2" element={<Modulo2 />} />
           <Route path="modulo-3" element={<Modulo3 />} />
