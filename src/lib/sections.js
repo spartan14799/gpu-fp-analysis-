@@ -6,6 +6,8 @@ export const SECTIONS = [
   { id: "intuicion", index: "01", label: "Intuición inicial", accent: "sign", kind: "route", path: "/intuicion" },
   { id: "modulo-1", index: "02", label: "Bits y rsqrt inversa", accent: "exp", kind: "route", path: "/modulo-1" },
   { id: "modulo-2", index: "03", label: "Trazado de Rayos", accent: "mant", kind: "route", path: "/modulo-2" },
-  { id: "modulo-3", index: "04", label: "Intersección y Rebote", accent: "mant", kind: "route", path: "/modulo-3" },
+  { id: "modulo-3", index: "04", label: "Laboratorio Físico", accent: "mant", kind: "route", path: "/modulo-3" },
   { id: "resultados", index: "05", label: "Resultados", accent: "sign", kind: "route", path: "/resultados" },
+  { id: "conclusiones", index: "06", label: "Conclusiones", accent: "mant", kind: "route", path: "/conclusiones" },
+  { id: "conversaciones", index: "07", label: "Uso de IA", accent: "exp", kind: "route", path: "/conversaciones" },
 ];

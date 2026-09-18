@@ -18,8 +18,8 @@ export default function Resultados() {
       index="05"
       accent="sign"
       variant="page"
-      title="Resultados, conclusiones y transformación"
-      subtitle="Contrastamos las intuiciones iniciales con lo descubierto analíticamente: cómo el estándar IEEE 754 interactúa realmente con el hardware gráfico."
+      title="Resultados Experimentales"
+      subtitle="Evidencia analítica y visual de cómo el estándar IEEE 754 interactúa con el hardware gráfico para la optimización de cálculos en 3D."
     >
       {/* Selector de pestañas por integrante */}
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -42,26 +42,49 @@ export default function Resultados() {
       <div className="min-h-[400px]">
         {/* Pestaña: Juan Huertas */}
         {activeTab === "juan" && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
             <p className="max-w-[65ch] text-ink-dim leading-relaxed">
-              Aquí irán los resultados y conclusiones de Juan Huertas, contrastando su intuición geométrica de cinemática y proyección del espacio 3D a la pantalla 2D con los hallazgos de precisión numérica.
+              Al estudiar la normalización de vectores, descubrimos cómo la aritmética de coma flotante y sus representaciones a nivel de bits permitieron optimizaciones críticas en la historia de los gráficos 3D.
             </p>
-            <div className="mt-6 h-48 border border-dashed border-line rounded-sm flex flex-col items-center justify-center text-ink-faint">
-              <span className="font-mono text-sm">Contenido en desarrollo</span>
-              <span className="text-xs mt-2 opacity-50">Esperando resultados de Juan...</span>
+
+            <div className="p-4 border border-line rounded-sm bg-surface max-w-[65ch]">
+              <h4 className="font-mono text-xs font-bold uppercase text-ink mb-2">Evidencia: Fast Inverse Square Root</h4>
+              <p className="text-sm text-ink-dim leading-relaxed mb-3">
+                Calcular la raíz cuadrada inversa (<code className="font-mono text-xs text-exp">1/sqrt(x)</code>) de forma tradicional requería múltiples divisiones de coma flotante, operaciones extremadamente costosas para las CPU antiguas. El famoso algoritmo de Quake III trata los bits del flotante IEEE 754 directamente como un número entero, aplicando un desplazamiento de bits (bitshift) y restándolo a una constante mágica (<code className="font-mono text-xs">0x5f3759df</code>) para obtener una primera aproximación logarítmica casi instantánea.
+              </p>
+              <p className="text-sm text-ink-dim leading-relaxed">
+                <strong className="text-exp">Resultado:</strong> Esta aproximación tiene un error máximo del 1.75%, que luego se reduce casi a cero aplicando una iteración del método de Newton-Raphson. Logra un cálculo 4 veces más rápido que la división estándar, permitiendo renderizar iluminación e intersecciones en tiempo real.
+              </p>
             </div>
           </div>
         )}
 
         {/* Pestaña: Deyvi Ardila */}
         {activeTab === "deyvi" && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
             <p className="max-w-[65ch] text-ink-dim leading-relaxed">
-              Aquí irán los resultados y conclusiones de Deyvi Ardila, contrastando su intuición sobre la arquitectura de hardware, paralelismo masivo y el intercambio de precisión (Float32 vs Float16) con los resultados del proyecto.
+              Al analizar experimentalmente el trazado de rayos bajo diferentes precisiones de punto flotante, descubrimos por qué la industria estandarizó el uso mixto de precisiones en lugar de usar <code className="font-mono text-xs">Float16</code> para todo (buscando máximo paralelismo).
             </p>
-            <div className="mt-6 h-48 border border-dashed border-line rounded-sm flex flex-col items-center justify-center text-ink-faint">
-              <span className="font-mono text-sm">Contenido en desarrollo</span>
-              <span className="text-xs mt-2 opacity-50">Esperando resultados de Deyvi...</span>
+            
+            <div className="p-4 border border-line rounded-sm bg-surface max-w-[65ch]">
+              <h4 className="font-mono text-xs font-bold uppercase text-ink mb-2">Evidencia: El problema geométrico (Shadow Acne)</h4>
+              <p className="text-sm text-ink-dim leading-relaxed mb-3">
+                Cuando forzamos el cálculo de intersección rayo-triángulo a usar <code className="font-mono text-xs">Float16</code> (Half-precision), la mantisa de 10 bits no tiene la resolución suficiente para almacenar coordenadas espaciales exactas. El error de redondeo microscópico provoca que el punto de colisión se calcule numéricamente "por debajo" de la superficie real del triángulo.
+              </p>
+              <p className="text-sm text-ink-dim leading-relaxed">
+                <strong className="text-sign">Resultado visual:</strong> Al lanzar el rayo secundario de sombra hacia la luz, este choca inmediatamente con la misma superficie desde adentro, creando falsas sombras negras conocidas como <em>Shadow Acne</em>. Geométricamente, perdimos la noción analítica de "exterior" e "interior" de la malla.
+              </p>
+            </div>
+
+            <div className="p-4 border border-line rounded-sm bg-surface max-w-[65ch]">
+              <h4 className="font-mono text-xs font-bold uppercase text-ink mb-2">Solución: Precisión Mixta en Hardware</h4>
+              <p className="text-sm text-ink-dim leading-relaxed mb-3">
+                Para resolver esto sin perder rendimiento, las GPU modernas dividen el <em>pipeline</em>:
+              </p>
+              <ul className="list-disc pl-5 text-sm text-ink-dim space-y-2">
+                <li><strong>Geometría (Float32):</strong> El cálculo de intersección estricta y recorrido del árbol BVH se hace en precisión simple. Evitamos el <em>Shadow Acne</em> y los huecos en las mallas.</li>
+                <li><strong>Color e Iluminación (Float16):</strong> Una vez determinada la colisión, el cálculo de acumulación de luz, rebotes de color y atenuación se degrada deliberadamente a <code className="font-mono text-xs">Float16</code>. El ojo humano es insensible a pequeños errores de redondeo en gradientes de color, logrando reducir el ancho de banda de VRAM a la mitad.</li>
+              </ul>
             </div>
           </div>
         )}
@@ -69,30 +92,6 @@ export default function Resultados() {
         {/* Pestaña: Nicolas Betancur */}
         {activeTab === "nicolas" && (
           <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
-            
-            {/* Cuadro de transformación síntesis */}
-            <div className="p-4 border border-line rounded-sm bg-surface max-w-[65ch]">
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="size-4 text-mant" />
-                <h4 className="font-mono text-xs font-bold uppercase text-ink tracking-wider">
-                  Síntesis de Transformación Conceptual
-                </h4>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="p-2.5 bg-surface-2 rounded-sm border border-line">
-                  <span className="font-mono text-[10px] text-sign uppercase font-bold block mb-1">Intuición Inicial</span>
-                  <p className="text-ink-dim">
-                    El error se hace visible tras acumular pequeños desvíos en múltiples rebotes; la corrección consistiría en engrosar la superficie o iterar modos de redondeo.
-                  </p>
-                </div>
-                <div className="p-2.5 bg-surface-2 rounded-sm border border-line">
-                  <span className="font-mono text-[10px] text-mant uppercase font-bold block mb-1">Resultado Analítico</span>
-                  <p className="text-ink-dim">
-                    El fallo es instantáneo en el rebote 1 (auto-intersección por residuo negativo); se corrige desplazando el origen secundario fuera de la superficie con un épsilon.
-                  </p>
-                </div>
-              </div>
-            </div>
 
             {/* Párrafo 1 */}
             <p className="max-w-[65ch] text-ink-dim leading-relaxed">
