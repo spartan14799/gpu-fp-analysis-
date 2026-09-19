@@ -5,7 +5,7 @@ export default function Conversaciones() {
   return (
     <Section
       id="conversaciones"
-      index="07"
+      index="08"
       accent="exp"
       variant="page"
       title="Uso de Inteligencia Artificial"
@@ -20,6 +20,7 @@ export default function Conversaciones() {
             <ul className="list-disc pl-5 text-sm text-ink-dim space-y-1">
               <li>Gemini 3.1 Pro</li>
               <li>Antigravity</li>
+              <li>ChatGPT 5.6 Sol</li>
             </ul>
           </div>
           <div className="p-4 bg-surface border border-line rounded-sm">

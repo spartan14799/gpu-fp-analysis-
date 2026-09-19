@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Section from "../components/Section.jsx";
 import Formula from "../components/Formula.jsx";
-import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 const INTEGRANTES = [
   { id: "juan", name: "Juan Huertas" },
   { id: "deyvi", name: "Deyvi Ardila" },
   { id: "nicolas", name: "Nicolas Betancur" },
+  { id: "german", name: "Germán Rodríguez" },
 ];
 
 export default function Resultados() {
@@ -15,7 +16,7 @@ export default function Resultados() {
   return (
     <Section
       id="resultados"
-      index="05"
+      index="06"
       accent="sign"
       variant="page"
       title="Resultados Experimentales"
@@ -124,6 +125,187 @@ export default function Resultados() {
               </div>
             </div>
 
+          </div>
+        )}
+
+        {/* Pestaña: Germán Rodríguez */}
+        {activeTab === "german" && (
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
+            <p className="max-w-[75ch] text-ink-dim leading-relaxed">
+              Se estudió cómo se acumulan los errores de Float32 al componer miles de rotaciones de un
+              cuerpo rígido y hasta qué punto la normalización periódica conserva un cuaternión válido.
+              El experimento separó dos efectos: el <strong className="text-ink">error de norma</strong>,
+              que mide cuánto se aleja el cuaternión de <Formula tex={String.raw`S^3`} />, y el
+              {" "}<strong className="text-ink">error angular</strong>, que mide la diferencia entre la
+              orientación calculada y una referencia analítica.
+            </p>
+
+            <div className="max-w-[75ch] rounded-sm border border-line bg-surface p-4">
+              <h4 className="font-mono text-xs font-bold uppercase text-ink">
+                Configuración utilizada para comparar los resultados
+              </h4>
+              <p className="mt-3 text-sm leading-relaxed text-ink-dim">
+                Se aplicaron <strong className="text-ink">100.000 rotaciones</strong> de
+                {" "}<Formula tex={String.raw`0.1^\circ`} /> alrededor del eje
+                {" "}<Formula tex={String.raw`\mathbf u=(1,2,3)/\sqrt{14}`} />. Se exigió un error de
+                norma menor o igual que <Formula tex={String.raw`10^{-4}`} /> y un error angular menor
+                o igual que <Formula tex={String.raw`0.1^\circ`} />. Todas las multiplicaciones, sumas
+                y restas del producto de Hamilton se redondearon a binary32.
+              </p>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-3">
+              <div className="rounded-sm border border-sign-dim bg-surface p-4">
+                <p className="font-mono text-xs uppercase text-sign">Sin normalizar</p>
+                <dl className="mt-4 space-y-2 font-mono text-[11px] text-ink-dim">
+                  <div className="flex justify-between gap-3">
+                    <dt>mayor error de norma</dt>
+                    <dd className="text-ink">2.15 × 10⁻³</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>mayor error angular</dt>
+                    <dd className="text-ink">0.0318°</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>límite de norma</dt>
+                    <dd className="text-right text-ink">superado en el paso 4.777</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>límite angular</dt>
+                    <dd className="text-right text-ink">no se superó</dd>
+                  </div>
+                </dl>
+                <p className="mt-4 text-sm leading-relaxed text-ink-dim">
+                  El error de norma terminó siendo <strong className="text-ink">21,5 veces</strong> la
+                  tolerancia. La orientación angular siguió dentro de su límite, pero el cuaternión dejó
+                  de satisfacer la precisión exigida para la norma.
+                </p>
+              </div>
+
+              <div className="rounded-sm border border-exp-dim bg-surface p-4">
+                <p className="font-mono text-xs uppercase text-exp">Normalizar cada 1.000 pasos</p>
+                <dl className="mt-4 space-y-2 font-mono text-[11px] text-ink-dim">
+                  <div className="flex justify-between gap-3">
+                    <dt>mayor error de norma</dt>
+                    <dd className="text-ink">2.69 × 10⁻⁵</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>mayor error angular</dt>
+                    <dd className="text-ink">0.0310°</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>límite de norma</dt>
+                    <dd className="text-right text-ink">no se superó</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>límite angular</dt>
+                    <dd className="text-right text-ink">no se superó</dd>
+                  </div>
+                </dl>
+                <p className="mt-4 text-sm leading-relaxed text-ink-dim">
+                  El mayor error de norma fue aproximadamente
+                  {" "}<strong className="text-ink">79,9 veces menor</strong> que en el caso sin
+                  normalización. El error angular solo disminuyó cerca de
+                  {" "}<strong className="text-ink">2,5 %</strong>. Esta frecuencia fue la más larga de
+                  las ensayadas que cumplió simultáneamente ambas tolerancias.
+                </p>
+              </div>
+
+              <div className="rounded-sm border border-mant-dim bg-surface p-4">
+                <p className="font-mono text-xs uppercase text-mant">Normalizar en cada paso</p>
+                <dl className="mt-4 space-y-2 font-mono text-[11px] text-ink-dim">
+                  <div className="flex justify-between gap-3">
+                    <dt>mayor error de norma</dt>
+                    <dd className="text-ink">2.06 × 10⁻⁷</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>mayor error angular</dt>
+                    <dd className="text-ink">0.0263°</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>límite de norma</dt>
+                    <dd className="text-right text-ink">no se superó</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>límite angular</dt>
+                    <dd className="text-right text-ink">no se superó</dd>
+                  </div>
+                </dl>
+                <p className="mt-4 text-sm leading-relaxed text-ink-dim">
+                  Esta estrategia produjo la menor desviación de norma y redujo el error angular un
+                  {" "}<strong className="text-ink">17,3 %</strong> frente al caso sin normalización.
+                  Sin embargo, exige calcular la norma y reescalar el cuaternión después de cada
+                  movimiento, incluso cuando una frecuencia menor ya satisface los límites.
+                </p>
+              </div>
+            </div>
+
+            <div className="max-w-[75ch] space-y-4">
+              <p className="leading-relaxed text-ink-dim">
+                <strong className="text-ink">El error sí se acumula, pero no de una sola forma.</strong>
+                {" "}Sin normalización, el primer incumplimiento de la norma apareció en el paso 4.777,
+                mientras que el error angular permaneció por debajo de su tolerancia durante los
+                100.000 movimientos. Por ello, vigilar únicamente el ángulo habría ocultado que el
+                cuaternión ya no conservaba adecuadamente la condición
+                {" "}<Formula tex={String.raw`\lVert q\rVert=1`} />.
+              </p>
+              <p className="leading-relaxed text-ink-dim">
+                <strong className="text-ink">¿Por qué aumentó más el error de norma?</strong>
+                {" "}En aritmética exacta, el producto de dos cuaterniones unitarios vuelve a tener norma
+                uno. En Float32, cada multiplicación y suma perturba ligeramente sus cuatro componentes.
+                La parte radial de esa perturbación modifica la longitud y vuelve a entrar en la
+                siguiente actualización, pues
+                {" "}<Formula tex={String.raw`\lVert q\otimes\Delta q\rVert=
+                  \lVert q\rVert\lVert\Delta q\rVert`} />. En cambio, una variación puramente radial no
+                cambia la dirección del cuaternión. Al medir el error angular se compara
+                {" "}<Formula tex={String.raw`q/\lVert q\rVert`} /> con la referencia, de modo que esa
+                variación de longitud se elimina de la medida. Solo permanecen las perturbaciones
+                tangenciales, que en este experimento fueron menores y pudieron compensarse parcialmente
+                entre rotaciones sucesivas.
+              </p>
+              <p className="leading-relaxed text-ink-dim">
+                <strong className="text-ink">La normalización corrige principalmente el error radial.</strong>
+                {" "}Al proyectar el cuaternión de nuevo sobre <Formula tex={String.raw`S^3`} />, el
+                error de norma se reduce varios órdenes de magnitud. La mejora angular es mucho menor
+                porque reescalar el cuaternión no determina cuál era la orientación exacta y no elimina
+                el error tangencial ya acumulado.
+              </p>
+              <p className="leading-relaxed text-ink-dim">
+                <strong className="text-ink">Corregir el error radial evita deformaciones.</strong>
+                {" "}La fórmula de rotación <Formula tex={String.raw`q\,p\,q^*`} /> supone que
+                {" "}<Formula tex={String.raw`q`} /> es unitario. Si su norma se aparta de uno, el
+                conjugado deja de ser el inverso, ya que
+                {" "}<Formula tex={String.raw`q^{-1}=q^*/\lVert q\rVert^2`} />. Usar entonces
+                {" "}<Formula tex={String.raw`q^*`} /> como si fuera <Formula tex={String.raw`q^{-1}`} />
+                puede introducir escala y hacer que la transformación deje de ser una rotación rígida.
+                Una normalización oportuna restaura la restricción
+                {" "}<Formula tex={String.raw`\lVert q\rVert=1`} />, evita que el error radial siga
+                alimentando las actualizaciones posteriores y conserva la forma del objeto.
+              </p>
+              <p className="leading-relaxed text-ink-dim">
+                <strong className="text-ink">No existe un intervalo universal de normalización.</strong>
+                {" "}La frecuencia adecuada depende del ángulo incremental, el eje, el número de pasos,
+                las tolerancias, el orden de evaluación y las decisiones del compilador de GPU. En esta
+                configuración, normalizar cada 1.000 pasos fue suficiente. Ese resultado debe volver a
+                evaluarse cuando cambien las condiciones de la simulación.
+              </p>
+            </div>
+
+            <div className="max-w-[75ch] rounded-sm border border-line bg-surface-2 p-4 flex items-start gap-3">
+              <CheckCircle2 className="size-5 text-mant shrink-0 mt-0.5" />
+              <div className="text-sm leading-relaxed text-ink-dim">
+                <strong className="mb-1 block font-mono text-[11px] uppercase text-ink">
+                  Respuesta a la pregunta de investigación
+                </strong>
+                En las condiciones evaluadas, dejar el cuaternión sin normalizar hizo que el error de
+                norma superara el límite después de 4.777 movimientos. Normalizar cada 1.000 pasos
+                mantuvo tanto la norma como la orientación dentro de las tolerancias durante 100.000
+                actualizaciones. Normalizar en cada paso redujo aún más los errores, pero aportó una
+                mejora angular limitada frente al trabajo adicional. La decisión práctica debe controlar
+                simultáneamente la norma y el ángulo y escoger el mayor intervalo que satisfaga ambos
+                requisitos.
+              </div>
+            </div>
           </div>
         )}
       </div>

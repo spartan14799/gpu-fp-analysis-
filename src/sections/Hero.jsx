@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Integrantes del equipo
-const TEAM = ["Juan Huertas", "Deyvi Ardila", "Nicolas Betancur"];
+const TEAM = ["Juan Huertas", "Deyvi Ardila", "Nicolas Betancur", "German Rodriguez"];
 
 export default function Hero() {
   return (

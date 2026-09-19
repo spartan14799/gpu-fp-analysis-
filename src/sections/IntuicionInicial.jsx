@@ -4,11 +4,14 @@ import PantallaPersonaje from "../components/PantallaPersonaje.jsx";
 import Proyeccion3D from "../components/Proyeccion3D.jsx";
 import PrecisionVsParalelismo from "../components/PrecisionVsParalelismo.jsx";
 import AcumulacionErrorRayTracing from "../components/AcumulacionErrorRayTracing.jsx";
+import QuaternionOrientation from "../components/QuaternionOrientation.jsx";
+import Formula from "../components/Formula.jsx";
 
 const INTEGRANTES = [
   { id: "juan", name: "Juan Huertas" },
   { id: "deyvi", name: "Deyvi Ardila" },
-  { id: "nicolas", name: "Nicolas Betancur" }
+  { id: "nicolas", name: "Nicolas Betancur" },
+  { id: "german", name: "Germán Rodríguez" },
 ];
 
 export default function IntuicionInicial() {
@@ -113,6 +116,57 @@ export default function IntuicionInicial() {
 
             <p className="mt-6 max-w-[65ch] text-ink-dim leading-relaxed">
               Pienso que es casi seguro que de alguna forma deben de &quot;amortiguar&quot; esta acumulación de errores, talvez dando un pequeño margen de error a las superficies que interactuán con los rayos de luz o aproximando iterativamente entre aproximación truncada y por exceso, haciendo que el error no pase de cierto valor.
+            </p>
+          </div>
+        )}
+
+        {activeTab === "german" && (
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <p className="max-w-[65ch] text-ink-dim leading-relaxed">
+              Me interesó esta pregunta porque posicionar y orientar correctamente los objetos
+              después de un movimiento es importante para que una simulación y una representación
+              gráfica 3D se sientan realistas.
+            </p>
+
+            <p className="mt-6 max-w-[65ch] text-ink-dim leading-relaxed">
+              Intuyo que en una simulación con gráficos 3D pueden ocurrir muchos movimientos
+              consecutivos. Si los cálculos no tienen una precisión adecuada, la posición y la
+              orientación calculadas se desviarán de las que habría tenido el objeto en ausencia
+              de los errores introducidos por la aritmética de punto flotante IEEE 754.
+            </p>
+
+            <p className="mt-6 max-w-[65ch] text-ink-dim leading-relaxed">
+              Si nos concentramos exclusivamente en la orientación de un cuerpo, su representación
+              puede ser susceptible a errores al ejecutar muchas rotaciones. Una forma de representar
+              la orientación de un objeto en un espacio 3D es mediante el siguiente cuaternión unitario:
+            </p>
+
+            <div className="my-6 overflow-x-auto border-l-2 border-mant pl-4 py-2">
+              <Formula
+                block
+                tex={String.raw`q=\left(\cos\frac{\theta}{2},\;u_x\sin\frac{\theta}{2},\;u_y\sin\frac{\theta}{2},\;u_z\sin\frac{\theta}{2}\right),\qquad \lVert q\rVert=1`}
+              />
+            </div>
+
+            <p className="max-w-[65ch] text-ink-dim leading-relaxed">
+              Cada rotación modifica el ángulo. Al calcular el cuaternión de giro aparecen
+              operaciones de seno y coseno que, en muchos casos, no tienen una representación
+              exacta en punto flotante. Además, al combinar sucesivamente la orientación actual con
+              cada nuevo giro se introducen más redondeos en las multiplicaciones y sumas.
+            </p>
+
+            <div className="mt-6">
+              <p className="mb-3 font-mono text-xs text-ink-dim">
+                simulación interactiva — eje, ángulo y componentes del cuaternión
+              </p>
+              <QuaternionOrientation />
+            </div>
+
+            <p className="mt-10 max-w-[65ch] text-ink-dim leading-relaxed">
+              Por tanto, considero que, si no se introduce un mecanismo adecuado de corrección,
+              estos errores pueden acumularse hasta producir una diferencia apreciable entre la
+              orientación calculada y la orientación que debería tener el objeto después de todos
+              los movimientos.
             </p>
           </div>
         )}

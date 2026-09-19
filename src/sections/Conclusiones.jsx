@@ -6,7 +6,7 @@ export default function Conclusiones() {
   return (
     <Section
       id="conclusiones"
-      index="06"
+      index="07"
       accent="mant"
       variant="page"
       title="Conclusiones y Transformación"
@@ -34,7 +34,7 @@ export default function Conclusiones() {
             ¿Qué cambió en nuestra comprensión?
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl">
             {/* Juan */}
             <div className="p-5 border border-line rounded-sm bg-surface">
               <h4 className="font-mono text-sm font-bold uppercase text-ink mb-3">Juan Huertas</h4>
@@ -76,6 +76,27 @@ export default function Conclusiones() {
                 <div>
                   <strong className="text-ink text-xs uppercase font-mono block mb-1">Entiendo ahora:</strong>
                   El fallo es instantáneo en el rebote 1 (auto-intersección por residuo negativo). Darle más grosor a la pared empeora el problema numérico. Aprendí que la verdadera corrección analítica es aplicar un sesgo (epsilon) para desplazar el origen secundario al semiespacio exterior seguro.
+                </div>
+              </div>
+            </div>
+
+            {/* Germán */}
+            <div className="p-5 border border-line rounded-sm bg-surface">
+              <h4 className="font-mono text-sm font-bold uppercase text-ink mb-3">Germán Rodríguez</h4>
+              <div className="space-y-4 text-sm text-ink-dim">
+                <div>
+                  <strong className="text-ink text-xs uppercase font-mono block mb-1">Pensaba al comenzar:</strong>
+                  Pensaba que, después de muchas rotaciones sucesivas, el error angular crecería hasta
+                  desfasar considerablemente la orientación del objeto. También creía que la pérdida de
+                  norma del cuaternión sería pequeña y poco relevante para la simulación.
+                </div>
+                <div>
+                  <strong className="text-ink text-xs uppercase font-mono block mb-1">Entiendo ahora:</strong>
+                  En el experimento, el error angular aumentó poco y permaneció dentro de la tolerancia
+                  incluso después de 100.000 rotaciones. En cambio, el error radial, medido mediante
+                  {" "}<Formula tex={String.raw`\left|\lVert q\rVert-1\right|`} />, sí llegó a ser
+                  considerable, algo que desconocía. Comprendí que normalizar oportunamente devuelve el
+                  cuaternión a la esfera unitaria y evita que ese error radial continúe creciendo.
                 </div>
               </div>
             </div>
