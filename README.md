@@ -39,7 +39,7 @@ La investigación está dividida en 4 módulos principales, cada uno enfocado en
 
 Puedes explorar la aplicación y los simuladores interactivos directamente desde tu navegador:
 
-🔗 **[Ver Proyecto en Vivo](https://gpu-fp-analysis.vercel.app/)** *(Reemplazar con el enlace real de Vercel/GitHub Pages)*
+🔗 **[Ver Proyecto en Vivo](http://gpu-fp-analysis.juanhu.dev/)** 
 
 ## 🛠️ Instalación y Ejecución Local
 
